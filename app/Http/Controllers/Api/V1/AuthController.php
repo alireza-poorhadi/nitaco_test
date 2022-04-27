@@ -44,4 +44,29 @@ class AuthController extends Controller
         }
         return $this->errorResponse(422, 'There was a problem registering you.');
     }
+
+    public function login(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse(422, $validator->getMessageBag());
+        }
+
+        $user = User::where('email', $request->email)->first();
+
+        if (is_null($user) || !Hash::check($request->password, $user->password)) {
+            return $this->errorResponse(422, 'Username or password is incorrect');
+        }
+
+        $token = $user->createToken('nitaco')->plainTextToken;
+
+        return $this->successResponse([
+            'user' => $user,
+            'token' => $token
+        ], 200, 'Your information and access token is as follows:');
+    }
 }
