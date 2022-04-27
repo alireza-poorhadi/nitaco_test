@@ -16,7 +16,7 @@ class Mapbox implements LocationInterface
         $client = new Client();
         $response = $client->request($method, $apiBaseEndpoint . $place . '.json?access_token=' . $token);
 
-        $response = json_decode(($response->getBody()));
+        $response = json_decode($response->getBody());
 
         return [
             'longitude' => $response->features[0]->center[0],

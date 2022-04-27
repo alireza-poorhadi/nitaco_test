@@ -34,7 +34,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'city' => $request->city,
+            'city' => ucfirst($request->city),
             'longitude' => $locationFeatures['longitude'],
             'latitude' => $locationFeatures['latitude']
         ]);
