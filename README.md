@@ -48,6 +48,7 @@ This is a small application for Nitaco Company to assess the programmer's abilit
 }
 ```
 
+
 #### `` JSON `` Response format
 ``` json
 {
