@@ -57,7 +57,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (is_null($user) || !Hash::check($request->password, $user->password)) {
-            return ApiResponder::response(null, ApiResponder::HTTP_UNAUTHORIZED, 'Username or password is incorrect');
+            return ApiResponder::response(null, ApiResponder::HTTP_UNAUTHORIZED, 'email or password is incorrect');
         }
 
         $token = $user->createToken('nitaco')->plainTextToken;
