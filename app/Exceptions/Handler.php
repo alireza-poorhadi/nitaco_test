@@ -2,14 +2,13 @@
 
 namespace App\Exceptions;
 
-use App\Traits\Api\V1\ApiResponser;
+use App\Utils\Api\V1\ApiResponder;
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
-    use ApiResponser;
     /**
      * A list of exception types with their corresponding custom log levels.
      *
@@ -54,7 +53,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         if ($e instanceof MethodNotAllowedHttpException) {
-            return $this->errorResponse(405, 'Method not allowed');
+            return ApiResponder::Response(null, ApiResponder::HTTP_METHOD_NOT_ALLOWED, 'Method not allowed');
         }
     }
 }

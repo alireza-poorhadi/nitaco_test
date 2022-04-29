@@ -6,14 +6,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Location\Mapbox;
-use App\Traits\Api\V1\ApiResponser as V1ApiResponser;
+use App\Utils\Api\V1\ApiResponder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    use V1ApiResponser;
-
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -24,7 +22,7 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->errorResponse(422, $validator->getMessageBag());
+            return ApiResponder::response(null, ApiResponder::HTTP_UNPROCESSABLE_ENTITY, $validator->getMessageBag());
         }
 
         $mapbox = new Mapbox();
@@ -40,9 +38,9 @@ class AuthController extends Controller
         ]);
 
         if ($user) {
-            return $this->successResponse($user, 201, 'Your registration was successful');
+            return ApiResponder::response($user, ApiResponder::HTTP_CREATED, 'Your registration was successful');
         }
-        return $this->errorResponse(422, 'There was a problem registering you.');
+        return ApiResponder::response(null, ApiResponder::HTTP_UNPROCESSABLE_ENTITY, 'There was a problem registering you.');
     }
 
     public function login(Request $request)
@@ -53,20 +51,20 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return $this->errorResponse(422, $validator->getMessageBag());
+            return ApiResponder::response(null, ApiResponder::HTTP_UNPROCESSABLE_ENTITY, $validator->getMessageBag());
         }
 
         $user = User::where('email', $request->email)->first();
 
         if (is_null($user) || !Hash::check($request->password, $user->password)) {
-            return $this->errorResponse(422, 'Username or password is incorrect');
+            return ApiResponder::response(null, ApiResponder::HTTP_UNAUTHORIZED, 'Username or password is incorrect');
         }
 
         $token = $user->createToken('nitaco')->plainTextToken;
 
-        return $this->successResponse([
+        return ApiResponder::response([
             'user' => $user,
             'token' => $token
-        ], 200, 'Your information and access token is as follows:');
+        ], ApiResponder::HTTP_OK, 'Your information and access token is as follows:');
     }
 }

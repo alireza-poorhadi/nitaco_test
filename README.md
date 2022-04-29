@@ -23,15 +23,15 @@ This is a small application for Nitaco Company to assess the programmer's abilit
 {
     "status" : "OK",
     "message": "Your registration was successful",
-    "data" : {
-        "name": "your name",
-        "email": "your email",
-        "city": "your city",
-        "longitude": -0.091998,
-        "latitude": 51.515618,
+    "data"   : {
+        "name"      : "your name",
+        "email"     : "your email",
+        "city"      : "your city",
+        "longitude" : -0.091998,
+        "latitude"  : 51.515618,
         "updated_at": "2022-04-27T12:46:28.000000Z",
         "created_at": "2022-04-27T12:46:28.000000Z",
-        "id": 1
+        "id"        : 1
     }
 }
 ```
@@ -59,7 +59,7 @@ This is a small application for Nitaco Company to assess the programmer's abilit
             "name": "your name",
             "email": "your email",
             "email_verified_at": null,
-            "city": "your city",
+            "city" : "your city",
             "longitude": 51.4,
             "latitude": 35.7,
             "created_at": "2022-04-27T12:32:17.000000Z",
